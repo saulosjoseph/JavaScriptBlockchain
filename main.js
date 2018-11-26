@@ -35,6 +35,19 @@ class Blockchain{
         newBlock.hash = newBlock.calculateHash();
         this.chain.push(newBlock);
     }
+
+    isChainValid(){
+        for(let i  = 1; i < this.chain.length; i++){
+            let currentBlock = this.chain[i];
+            let previousBlock = this.chain[i - 1];
+            if(currentBlock.hash !== currentBlock.calculateHash()){
+                return false;
+            } else if (currentBlock.previousHash !== previousBlock.calculateHash()){
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 let SauloCoin = new Blockchain();
@@ -43,4 +56,6 @@ SauloCoin.addBlock("Oi");
 SauloCoin.addBlock("Olá");
 
 console.log(JSON.stringify(SauloCoin, null, 4));
+
+console.log(SauloCoin.isChainValid());
 
