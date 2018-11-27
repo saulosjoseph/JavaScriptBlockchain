@@ -5,11 +5,14 @@ const Block = require('./block.js');
 class Chain{
 
     constructor(){
-        this.chain = [this.createGenesisBlock()];
+        this.difficulty = 3;
+        this.chain = [this.createGenesisBlock()];        
     }
 
     createGenesisBlock(){
-        return new Block(0, "Genesis Block", '0');
+        let genesisBlock = new Block(0, "Genesis Block", '0');
+        genesisBlock.mineHash(this.difficulty);
+        return genesisBlock;
     }
 
     getLastBlock(){
@@ -20,7 +23,7 @@ class Chain{
         let index = this.chain.length;
         let newBlock = new Block(index, data, '0');
         newBlock.previousHash = this.getLastBlock().hash;
-        newBlock.hash = newBlock.calculateHash();
+        newBlock.mineHash(this.difficulty);
         this.chain.push(newBlock);
     }
 
@@ -31,6 +34,9 @@ class Chain{
             if(currentBlock.hash !== currentBlock.calculateHash()){
                 return false;
             } else if (currentBlock.previousHash !== previousBlock.calculateHash()){
+                console.log(currentBlock.previousHash);
+                console.log(previousBlock.calculateHash());
+                console.log("B");
                 return false;
             }
         }
