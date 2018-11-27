@@ -5,7 +5,7 @@ const Block = require('./block.js');
 class Chain{
 
     constructor(){
-        this.difficulty = 3;
+        this.difficulty = 1;
         this.chain = [this.createGenesisBlock()];        
     }
 
@@ -20,6 +20,7 @@ class Chain{
     }
 
     addBlock(data){
+        this.difficulty++;
         let index = this.chain.length;
         let newBlock = new Block(index, data, '0');
         newBlock.previousHash = this.getLastBlock().hash;
